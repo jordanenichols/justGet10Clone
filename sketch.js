@@ -7,15 +7,26 @@
 * -Implement Score
 * -Implement UI(Pause, Restart, etc.)
 */
+var img;
 var b;
 var background1;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   b = new Board(5);
+  // img = createImage(windowWidth, windowHeight);
+  // img.loadPixels();
+  // for (var x = 0; x < img.width; x++) {
+  //   for (var y = 0; y < img.height; y++) {
+  //     var a = map(y, 0,img.height, 100, 0);
+  //     img.set(x, y, [185, 66, 244, a]);
+  //   }
+  // }
+  // img.updatePixels();
 }
 
 function draw() {
-  background(0);
+  background(220);
+  // image(img,0,0);
   translate(b.boxSize, b.boxSize);
   b.drawBoard();
 }
@@ -35,13 +46,14 @@ class Board {
     this.sideLength = sideLength;
     this.boxSize = min(windowWidth, windowHeight) / (sideLength + 2);
     textSize(this.boxSize / 2);
-    this.hue = 0;
+    this.boxHue = 0;
+    this.textHue = 0;
     this.matrix = new Array(sideLength);
     this.raised = [];
     for (var i = 0; i < sideLength; i++) {
       this.matrix[i] = new Array(sideLength); //i is x values 
       for (var j = 0; j < sideLength; j++) {
-        this.matrix[i][j] = ceil(random(3)); //j is y values
+        this.matrix[i][j] = ceil(random(4)); //j is y values
       }
     }
     console.log(this.matrix);
@@ -53,55 +65,66 @@ class Board {
 
         switch (current) {
           case (1):
-            this.hue = 29;
+            this.boxHue = 29;
+            this.textHue = 29;
+            this.textBrightness = 55;
             break;
           case (2):
-            this.hue = 56;
+            this.boxHue = 56;
+            this.textHue = 60;
+            this.textBrightness = 70;
             break;
           case (3):
-            this.hue = 13;
+            this.boxHue = 13;
+            this.textHue = 8;
+            this.textBrightness = 80;
             break;
           case (4):
-            this.hue = 7;
+            this.boxHue = 7;
+            this.textHue = 6;
+            this.textBrightness = 66;
             break;
           case (5):
-            this.hue = 48;
+            this.boxHue = 48;
             break;
           case (6):
-            this.hue = 74;
+            this.boxHue = 74;
             break;
           case (7):
-            this.hue = 87;
+            this.boxHue = 87;
             break;
           case (8):
-            this.hue = 0;
+            this.boxHue = 0;
             break;
           case (9):
-            this.hue = 17;
+            this.boxHue = 17;
             break;
           case (10):
-            this.hue = 43;
+            this.boxHue = 43;
             break;
         }
 
         if (this.inArray(i, j)) {
-          fill(this.hue, 100, 60);
+          fill(this.boxHue, 100, 60);
           rect((i) * this.boxSize, (j) * this.boxSize + (this.boxSize - (this.boxSize / 8)), this.boxSize, (this.boxSize / 8));
-          fill(this.hue, 100, 95);
+          fill(this.boxHue, 100, 95);
           square((i) * this.boxSize, (j) * this.boxSize - (this.boxSize / 8), this.boxSize);
-          fill(this.hue, 90, 100);
+          fill(this.boxHue, 90, 100);
           triangle(i * this.boxSize, j * this.boxSize - (this.boxSize / 8), i * this.boxSize + this.boxSize, j * this.boxSize - (this.boxSize / 8), i * this.boxSize + (this.boxSize / 2), j * this.boxSize + (this.boxSize - (this.boxSize / 8) - (this.boxSize / 2)));
-          fill(this.hue, 100, 85);
+          fill(this.boxHue, 100, 85);
           triangle(i * this.boxSize, j * this.boxSize + (this.boxSize - (this.boxSize / 8)), i * this.boxSize + this.boxSize, j * this.boxSize + (this.boxSize - (this.boxSize / 8)), i * this.boxSize + (this.boxSize / 2), j * this.boxSize + (this.boxSize - (this.boxSize / 8) - this.boxSize / 2));
-          fill(this.hue, 100, 60);
+          fill(this.textHue, 100, this.textBrightness);
           text(this.matrix[i][j], (i) * this.boxSize + (this.boxSize / 2), (j) * this.boxSize + (this.boxSize / 2));
 
         }
         else {
-          fill(this.hue, 100, 95);
+          fill(this.boxHue, 100, 60);
+          rect((i) * this.boxSize, (j) * this.boxSize + (this.boxSize - (this.boxSize / 8)), this.boxSize, (this.boxSize / 4));
+          fill(this.boxHue, 100, 95);
           square((i) * this.boxSize, (j) * this.boxSize, this.boxSize);
-          fill(this.hue, 100, 60);
+          fill(this.textHue, 90, this.textBrightness);
           text(this.matrix[i][j], (i) * this.boxSize + (this.boxSize / 2), (j) * this.boxSize + (this.boxSize / 2) + (this.boxSize / 8));
+
         }
       }
     }
