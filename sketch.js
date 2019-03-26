@@ -1,3 +1,12 @@
+/** CURRENT ISSUES
+* -Need to flip arrays in b.matrix to allow easier implementation of condense method
+* -Add condense method -- When box in raised array is clicked, remove all boxes other than the one selected
+* and move down boxes above the removed boxes to replace them. Spaces left empty will be replaced by random
+* boxes
+* -Implement Background animation
+* -Implement Score
+* -Implement UI(Pause, Restart, etc.)
+*/
 var b;
 var background1;
 function setup() {
