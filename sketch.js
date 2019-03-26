@@ -27,7 +27,6 @@ function windowResized() {
 class Board {
   constructor(sideLength) {
     textAlign(CENTER);
-    
     var myFont = loadFont('Multicolore.otf');
     textFont(myFont);
     textStyle(BOLD);
@@ -39,18 +38,17 @@ class Board {
     this.hue = 0;
     this.matrix = new Array(sideLength);
     this.raised = [];
-    this.raiseY = 0;
     for (var i = 0; i < sideLength; i++) {
-      this.matrix[i] = new Array(sideLength);
+      this.matrix[i] = new Array(sideLength); //i is x values 
       for (var j = 0; j < sideLength; j++) {
-        this.matrix[i][j] = ceil(random(10));
+        this.matrix[i][j] = ceil(random(3)); //j is y values
       }
     }
     console.log(this.matrix);
   }
   drawBoard() {
-    for (var i = 0; i < this.sideLength; i++) {
-      for (var j = 0; j < this.sideLength; j++) {
+    for (var j = 0; j < this.sideLength; j++) {
+      for (var i = 0; i < this.sideLength; i++) {
         var current = this.matrix[i][j];
 
         switch (current) {
@@ -88,22 +86,22 @@ class Board {
 
         if (this.inArray(i, j)) {
           fill(this.hue, 100, 60);
-          rect((j) * this.boxSize, (i) * this.boxSize + (this.boxSize - (this.boxSize / 8)), this.boxSize, (this.boxSize / 8));
+          rect((i) * this.boxSize, (j) * this.boxSize + (this.boxSize - (this.boxSize / 8)), this.boxSize, (this.boxSize / 8));
           fill(this.hue, 100, 95);
-          square((j) * this.boxSize, (i) * this.boxSize - (this.boxSize / 8), this.boxSize);
+          square((i) * this.boxSize, (j) * this.boxSize - (this.boxSize / 8), this.boxSize);
           fill(this.hue, 90, 100);
-          triangle(j * this.boxSize, i * this.boxSize - (this.boxSize / 8), j * this.boxSize + this.boxSize, i * this.boxSize - (this.boxSize / 8), j * this.boxSize + (this.boxSize / 2), i * this.boxSize + (this.boxSize - (this.boxSize / 8) - (this.boxSize / 2)));
+          triangle(i * this.boxSize, j * this.boxSize - (this.boxSize / 8), i * this.boxSize + this.boxSize, j * this.boxSize - (this.boxSize / 8), i * this.boxSize + (this.boxSize / 2), j * this.boxSize + (this.boxSize - (this.boxSize / 8) - (this.boxSize / 2)));
           fill(this.hue, 100, 85);
-          triangle(j * this.boxSize, i * this.boxSize + (this.boxSize - (this.boxSize / 8)), j * this.boxSize + this.boxSize, i * this.boxSize + (this.boxSize - (this.boxSize / 8)), j * this.boxSize + (this.boxSize / 2), i * this.boxSize + (this.boxSize - (this.boxSize / 8) - this.boxSize / 2));
+          triangle(i * this.boxSize, j * this.boxSize + (this.boxSize - (this.boxSize / 8)), i * this.boxSize + this.boxSize, j * this.boxSize + (this.boxSize - (this.boxSize / 8)), i * this.boxSize + (this.boxSize / 2), j * this.boxSize + (this.boxSize - (this.boxSize / 8) - this.boxSize / 2));
           fill(this.hue, 100, 60);
-          text(this.matrix[i][j], (j) * this.boxSize + (this.boxSize / 2), (i) * this.boxSize + (this.boxSize / 2) );
+          text(this.matrix[i][j], (i) * this.boxSize + (this.boxSize / 2), (j) * this.boxSize + (this.boxSize / 2));
 
         }
         else {
           fill(this.hue, 100, 95);
-          square((j) * this.boxSize, (i) * this.boxSize, this.boxSize);
+          square((i) * this.boxSize, (j) * this.boxSize, this.boxSize);
           fill(this.hue, 100, 60);
-          text(this.matrix[i][j], (j) * this.boxSize + (this.boxSize / 2), (i) * this.boxSize + (this.boxSize / 2) + (this.boxSize / 8));
+          text(this.matrix[i][j], (i) * this.boxSize + (this.boxSize / 2), (j) * this.boxSize + (this.boxSize / 2) + (this.boxSize / 8));
         }
       }
     }
@@ -126,10 +124,21 @@ class Board {
 
   }
   press() {
-    if (mouseX < this.sideLength * this.boxSize + this.boxSize && mouseY < this.sideLength * this.boxSize + this.boxSize)
-      this.raise(int((mouseY - this.boxSize) / this.boxSize), int((mouseX - this.boxSize) / this.boxSize));
-  }
 
+    if (mouseY < this.sideLength * this.boxSize + this.boxSize && mouseX < this.sideLength * this.boxSize + this.boxSize) {
+      if (this.inArray(int((mouseX - this.boxSize) / this.boxSize), int((mouseY - this.boxSize) / this.boxSize))) {
+        //condense thing
+      } else {
+        if (b.raised.length > 0) b.raised = [];
+        this.raise(int((mouseX - this.boxSize) / this.boxSize), int((mouseY - this.boxSize) / this.boxSize));
+      }
+    }
+  }
+  condenseBlocks() {
+    for(var i = 0; i < this.matrix.length; i++)  {
+      
+    }
+  }
 }
 
 class Background {
@@ -147,10 +156,10 @@ class Shapes {
     this.x = x;
     this.y = y;
     this.r = random(smallR, largeR);
-    this.vx = random(-3,3);
-    this.vy = random(-3,3);
-    this.h = random(100,200);
-    this.hv = random(-1,1);
+    this.vx = random(-3, 3);
+    this.vy = random(-3, 3);
+    this.h = random(100, 200);
+    this.hv = random(-1, 1);
     this.hits = 0;
     this.maxHits = maxHits - 1;
     this.mediumR = largeR - smallR;
@@ -173,7 +182,7 @@ class Shapes {
 }
 
 function mouseClicked() {
-  if (b.raised.length > 0) b.raised = [];
+
   b.press();
 
 }
