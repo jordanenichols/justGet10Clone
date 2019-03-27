@@ -9,24 +9,16 @@
 */
 var img;
 var b;
-var background1;
+var background;
 function setup() {
   createCanvas(windowWidth, windowHeight);
   b = new Board(5);
-  // img = createImage(windowWidth, windowHeight);
-  // img.loadPixels();
-  // for (var x = 0; x < img.width; x++) {
-  //   for (var y = 0; y < img.height; y++) {
-  //     var a = map(y, 0,img.height, 100, 0);
-  //     img.set(x, y, [185, 66, 244, a]);
-  //   }
-  // }
-  // img.updatePixels();
+  background = createDiv();
+  styleElement(background ,[]);
 }
 
 function draw() {
   background(220);
-  // image(img,0,0);
   translate(b.boxSize, b.boxSize);
   b.drawBoard();
 }
@@ -214,4 +206,13 @@ function touchEnded() {
   if (b.raised.length > 0) b.raised = [];
   b.press();
 
+}
+
+function styleElement(element, styles) {
+  if(styles.length==0||styles.length%2!==0) {
+    throw "Styles array is not evenly sized or is empty!";
+  }
+  for(var i=0; i<styles.length; i+=2) {
+    element.style(styles[i], styles[i+1]);
+  }
 }
